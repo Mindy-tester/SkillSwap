@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TechTalk.SpecFlow;
 using static MarsFramework.Global.GlobalDefinitions;
 
 namespace MarsFramework.Global
@@ -30,9 +31,10 @@ namespace MarsFramework.Global
         #endregion
 
         #region setup and tear down
-        [SetUp]
+        //[SetUp]
+        [BeforeScenario]
 
-        public static void Inititalize()
+        public void Inititalize()
         {
 
             // advisasble to read this documentation before proceeding http://extentreports.relevantcodes.com/net/
@@ -70,10 +72,10 @@ namespace MarsFramework.Global
         }
 
 
-        [TearDown]
+        //[TearDown]
 
-
-        public static void TearDown()
+        [AfterScenario]
+        public void TearDown()
         {
             // Screenshot
             String img = SaveScreenShotClass.SaveScreenshot(GlobalDefinitions.driver, "Report");

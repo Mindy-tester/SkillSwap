@@ -83,14 +83,14 @@ namespace MarsFramework.Pages
 
         public void SkillShare()
         {
-            //Explicit wait for Skill share button
-            WebDriverWait skillSharewait = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(20));
-            IWebElement skillShareObj = skillSharewait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//a[contains(text(), 'Share Skill')]")));
+            ////Explicit wait for Skill share button
+            //WebDriverWait skillSharewait = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(20));
+            //IWebElement skillShareObj = skillSharewait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//a[contains(text(), 'Share Skill')]")));
 
 
             //Populate data from Excel
             GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "SkillShare");
-            shareSkillBtn.Click();
+            //shareSkillBtn.Click();
 
 
             //Explicit wait for Title textbox

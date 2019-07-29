@@ -132,9 +132,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\onboarding\MarsFramework\MarsFramework\StepDefinitions\FeatureFileSteps.cs">
-      <Link>StepDefinitions\FeatureFileSteps.cs</Link>
-    </Compile>
     <Compile Include="Config\MarsResource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -153,6 +150,7 @@
     <Compile Include="Pages\SignUp.cs" />
     <Compile Include="Pages\Profile.cs" />
     <Compile Include="Pages\SkillSharePage.cs" />
+    <Compile Include="StepDefinitions\FeatureFileSteps.cs" />
     <Compile Include="Test\APITest.cs" />
     <Compile Include="Test\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

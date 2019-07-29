@@ -26,7 +26,7 @@ namespace MarsFramework
                 obj.EditProfile();
 
             }
-            [Test]
+            [Test, Order(1)]
             public void AddSkill()
             {
                 SkillSharePage skillObj = new SkillSharePage();
@@ -34,7 +34,7 @@ namespace MarsFramework
                 skillObj.ValidateTheSkillAdded();
 
             }
-            [Test]
+            [Test, Order(3)]
             public void DeleteSkill()
             {
 
@@ -43,14 +43,14 @@ namespace MarsFramework
                 manageListingObj.ValidatedDeletedSkills();
 
             }
-            [Test]
+            [Test, Order(2)]
 
             public void UpdateSkill()
             {
                 ManageListingsPage updateSkillObj = new ManageListingsPage();
                 updateSkillObj.UpdatedListing();
             }
-            [Test]
+            [Test, Order(4)]
             public void ManageRequests()
             {
                 ManageRequestsPage manageRequest = new ManageRequestsPage();
@@ -58,7 +58,7 @@ namespace MarsFramework
                 manageRequest.SearchSkills();
 
             }
-            [Test]
+            [Test, Order(5)]
 
             public void SearchSkill()
             {

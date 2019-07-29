@@ -341,7 +341,7 @@ namespace MarsFramework.Pages
                     Global.GlobalDefinitions.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
 
 
-                    if (titleObj == "ttt" && categoryObj == "Graphics & Design")
+                    if (titleObj == (GlobalDefinitions.ExcelLib.ReadData(2, "Title")))
                     {
                         Global.Base.Test.Log(RelevantCodes.ExtentReports.LogStatus.Pass, "Skill added Successfully");
                         return;

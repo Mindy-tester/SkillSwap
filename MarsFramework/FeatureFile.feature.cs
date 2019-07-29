@@ -31,8 +31,8 @@ namespace MarsFramework
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "FeatureFile", "\tIn order to share my skill\r\n\tAs a skill trader\r\n\tI want to add and share new ski" +
-                    "ll", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "FeatureFile", "\tIn order to share my skill\r\n\tAs a skill trader\r\n\tI want to add, Edit and delete " +
+                    "new skill", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -86,6 +86,38 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.When("user click on share skill and add skill", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 10
  testRunner.Then("new skill should display on manage listings", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("if user is able to edit skill")]
+        public virtual void IfUserIsAbleToEditSkill()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("if user is able to edit skill", null, ((string[])(null)));
+#line 12
+ this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 13
+ testRunner.When("user click on manage listings and click on edit listing", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 14
+ testRunner.Then("skill should display with new updates", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("if user is able to delete skill")]
+        public virtual void IfUserIsAbleToDeleteSkill()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("if user is able to delete skill", null, ((string[])(null)));
+#line 16
+ this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 17
+    testRunner.When("user click on manage listings and click on delete listing", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 18
+ testRunner.Then("skill should not display in listings", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

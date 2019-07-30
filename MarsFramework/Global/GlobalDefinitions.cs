@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MarsFramework.Global
 {
-    class GlobalDefinitions
+   public class GlobalDefinitions
     {
         //Initialise the browser
         public static IWebDriver driver { get; set; }

@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace MarsFramework
+namespace SpecflowPage.Features
 {
     using TechTalk.SpecFlow;
     
@@ -18,20 +18,20 @@ namespace MarsFramework
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("FeatureFile")]
-    public partial class FeatureFileFeature
+    [NUnit.Framework.DescriptionAttribute("ShareSkillFeature1")]
+    public partial class ShareSkillFeature1Feature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "FeatureFile.feature"
+#line 1 "ShareSkillFeature1.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "FeatureFile", "\tIn order to share my skill\r\n\tAs a skill trader\r\n\tI want to add, Edit and delete " +
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "ShareSkillFeature1", "\tIn order to share my skill\r\n\tAs a skill trader\r\n\tI want to add, Edit and delete " +
                     "new skill", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }

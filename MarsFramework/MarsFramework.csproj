@@ -137,11 +137,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MarsResource.resx</DependentUpon>
     </Compile>
-    <Compile Include="FeatureFile.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FeatureFile.feature</DependentUpon>
-    </Compile>
     <Compile Include="Global\Base.cs" />
     <Compile Include="Global\GlobalDefinitions.cs" />
     <Compile Include="Pages\ManageListingsPage.cs" />
@@ -150,7 +145,6 @@
     <Compile Include="Pages\SignUp.cs" />
     <Compile Include="Pages\Profile.cs" />
     <Compile Include="Pages\SkillSharePage.cs" />
-    <Compile Include="StepDefinitions\FeatureFileSteps.cs" />
     <Compile Include="Test\APITest.cs" />
     <Compile Include="Test\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -166,10 +160,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="FeatureFile.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>FeatureFile.feature.cs</LastGenOutput>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

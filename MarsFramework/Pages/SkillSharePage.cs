@@ -83,14 +83,14 @@ namespace MarsFramework.Pages
 
         public void SkillShare()
         {
-            ////Explicit wait for Skill share button
-            //WebDriverWait skillSharewait = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(20));
-            //IWebElement skillShareObj = skillSharewait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//a[contains(text(), 'Share Skill')]")));
+            //Explicit wait for Skill share button
+            WebDriverWait skillSharewait = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(20));
+            IWebElement skillShareObj = skillSharewait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//a[contains(text(), 'Share Skill')]")));
 
 
             //Populate data from Excel
             GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "SkillShare");
-            //shareSkillBtn.Click();
+            shareSkillBtn.Click();
 
 
             //Explicit wait for Title textbox
@@ -111,6 +111,7 @@ namespace MarsFramework.Pages
             //Select Category
             SelectElement categoryObj = new SelectElement(Global.GlobalDefinitions.driver.FindElement(By.Name("categoryId")));
             categoryObj.SelectByValue("3");
+            //categoryObj.SelectByValue(GlobalDefinitions.ExcelLib.ReadData(2, "Category"));
 
 
             //Explicit wait for sub category
@@ -119,6 +120,7 @@ namespace MarsFramework.Pages
 
             //Select Sub Category
             SelectElement subCategoryObj = new SelectElement(Global.GlobalDefinitions.driver.FindElement(By.Name("subcategoryId")));
+           
             subCategoryObj.SelectByIndex(2);
 
             //add Tags
@@ -168,17 +170,26 @@ namespace MarsFramework.Pages
             WebDriverWait startDateWait = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(10));
             IWebElement startDateObj = startDateWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//input[@placeholder='Start date']")));
 
+
             //Enter date in startdate
 
-            startDate.SendKeys("07282019");
+           // DateTime date = DateTime.Now.Date;
+           // var date1 = DateTime.Today.AddDays(5);
+
+            //string today = DateTime.Now.ToString();
+            //string answer = today.;
+
+            startDate.Clear();
+            startDate.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "StartDate"));
 
             //Press tab to shift focus to End date
             startDate.SendKeys(Keys.Tab);
-            //Enter date in end date 
-            endDate.SendKeys("07302019");
+
+               //Enter date in end date 
+            endDate.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "EndDate"));
 
             //Press tab to shift focus to End date
-            startDate.SendKeys(Keys.Tab);
+            endDate.SendKeys(Keys.Tab);
             //implict wait
             Global.GlobalDefinitions.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
 
@@ -299,7 +310,7 @@ namespace MarsFramework.Pages
             AutoItX3 autoIt = new AutoItX3();
             autoIt.WinActivate("Open");
             Thread.Sleep(1000);
-            autoIt.Send(@"C:\Users\minty\OneDrive\Desktop\SampleImage.jpg");
+            autoIt.Send(@"C:\Users\minty\OneDrive\Documents\Standard\SampleImage.jpg");
             Global.GlobalDefinitions.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
             autoIt.Send("{Enter}");
 

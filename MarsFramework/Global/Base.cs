@@ -31,8 +31,8 @@ namespace MarsFramework.Global
         #endregion
 
         #region setup and tear down
-        //[SetUp]
-        [BeforeScenario]
+        [SetUp]
+        //[BeforeScenario]
 
         public void Inititalize()
         {
@@ -53,7 +53,7 @@ namespace MarsFramework.Global
 
             #region Initialise Reports
 
-            Extent = new ExtentReports(ReportPath, true, DisplayOrder.NewestFirst);
+            Extent = new ExtentReports(ReportPath, false, DisplayOrder.NewestFirst);
             Extent.LoadConfig(MarsResource.ReportXMLPath);
 
             #endregion
@@ -72,9 +72,9 @@ namespace MarsFramework.Global
         }
 
 
-        //[TearDown]
+        [TearDown]
 
-        [AfterScenario]
+        //[AfterScenario]
         public void TearDown()
         {
             // Screenshot

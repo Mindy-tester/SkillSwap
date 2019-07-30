@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static MarsFramework.Global.GlobalDefinitions;
 
 namespace MarsFramework
 {
@@ -34,7 +35,7 @@ namespace MarsFramework
                 skillObj.ValidateTheSkillAdded();
 
             }
-            [Test, Order(3)]
+            [Test, Order(2)]
             public void DeleteSkill()
             {
 
@@ -43,19 +44,19 @@ namespace MarsFramework
                 manageListingObj.ValidatedDeletedSkills();
 
             }
-            [Test, Order(2)]
+            [Test, Order(3)]
 
             public void UpdateSkill()
             {
                 ManageListingsPage updateSkillObj = new ManageListingsPage();
                 updateSkillObj.UpdatedListing();
             }
-            [Test, Order(4)]
+            [Test , Order(4)]
             public void ManageRequests()
             {
                 ManageRequestsPage manageRequest = new ManageRequestsPage();
                 manageRequest.Requests();
-                manageRequest.SearchSkills();
+                
 
             }
             [Test, Order(5)]

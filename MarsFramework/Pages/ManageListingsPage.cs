@@ -65,7 +65,7 @@ namespace MarsFramework.Pages
                         IWebElement deleteListing = Global.GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='listing-management-section']/div[2]/div[1]/table/tbody/tr[" + j + " ]/td[8]/i[3]"));
 
                         Global.GlobalDefinitions.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-                        if (titleObj == "testing" && categoryObj == "Programming & Tech")
+                        if (titleObj == GlobalDefinitions.ExcelLib.ReadData(2, "Title") && categoryObj == "Writing & Translation")
                         {
                             //Explicit wait for delete btn
                             WebDriverWait deleteListingWait = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(10));
@@ -115,7 +115,7 @@ namespace MarsFramework.Pages
                         var titleObj = Global.GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='listing-management-section']/div[2]/div[1]/table/tbody/tr[" + j + "]/td[3]")).Text;
                         var categoryObj = Global.GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='listing-management-section']/div[2]/div[1]/table/tbody/tr[" + j + "]/td[2]")).Text;
 
-                        if (titleObj == "testing" && categoryObj == "Programming & Tech")
+                        if (titleObj == GlobalDefinitions.ExcelLib.ReadData(2, "Title") && categoryObj == "Writing & Translation")
                         {
                             Global.Base.Test.Log(RelevantCodes.ExtentReports.LogStatus.Pass, "Skill deleted failed");
                         }
@@ -224,7 +224,7 @@ namespace MarsFramework.Pages
 
                     IWebElement updateListing = Global.GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='listing-management-section']/div[2]/div[1]/table/tbody/tr[" + j + "]/td[8]/i[2]"));
                     Global.GlobalDefinitions.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-                    if (titleObj == "ttt" && categoryObj == "Graphics & Design")
+                    if (titleObj == "ttt" && categoryObj == "Programming & Tech")
                     {
                         //Global.GlobalDefinitions.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
                         updateListing.Click();

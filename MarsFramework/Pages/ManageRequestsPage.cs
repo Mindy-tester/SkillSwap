@@ -69,12 +69,12 @@ namespace MarsFramework.Pages
         public void SearchSkills()
         {
             //Populate data from Excel
-            //GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "SearchSkills");
+            GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "SearchSkills");
             WebDriverWait skillWait = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(10));
             IWebElement skillObj = skillWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//input[@placeholder='Search skills']")));
 
             //Enter skill in skill search
-            searchSkills.SendKeys("Testing");
+            searchSkills.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Skill"));
             searchSkills.SendKeys(Keys.Enter);
 
             //Explicit wait for All categories
@@ -108,6 +108,7 @@ namespace MarsFramework.Pages
 
             Global.GlobalDefinitions.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
 
+            Global.Base.Test.Log(RelevantCodes.ExtentReports.LogStatus.Pass, "Search Skill Successfully");
             //click onsite
             Global.GlobalDefinitions.driver.FindElement(By.XPath("//button[contains(text(),'Onsite')]")).Click();
 

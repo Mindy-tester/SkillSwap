@@ -32,7 +32,7 @@ namespace MarsFramework
             {
                 SkillSharePage skillObj = new SkillSharePage();
                 skillObj.SkillShare();
-                skillObj.ValidateTheSkillAdded();
+                
 
             }
             [Test, Order(2)]

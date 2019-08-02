@@ -27,17 +27,43 @@ namespace MarsFramework.Pages
         [FindsBy(How = How.XPath, Using = "//a[contains(text(), 'Share Skill')]")]
         private IWebElement shareSkillBtn { get; set; }
 
-        //Add Title
+        //Title
         [FindsBy(How = How.Name, Using = "title")]
         private IWebElement addTitle { get; set; }
 
-        //Enter Description
+        //Description
         [FindsBy(How = How.Name, Using = "description")]
         private IWebElement addDescription { get; set; }
 
-        //Add Tags
+        //Category
+        [FindsBy(How = How.Name, Using = "categoryId")]
+        private IWebElement addCategory { get; set; }
+
+
+        //Subcategory
+        [FindsBy(How = How.Name, Using = "subcategoryId")]
+        private IWebElement addSubCategory { get; set; }
+
+        //Tags
         [FindsBy(How = How.XPath, Using = "//body/div/div/div[@id='service-listing-section']/div[contains(@class,'ui container')]/div[contains(@class,'listing')]/form[contains(@class,'ui form')]/div[contains(@class,'tooltip-target ui grid')]/div[contains(@class,'twelve wide column')]/div[contains(@class,'')]/div[contains(@class,'ReactTags__tags')]/div[contains(@class,'ReactTags__selected')]/div[contains(@class,'ReactTags__tagInput')]/input[1]")]
         private IWebElement addTags { get; set; }
+
+        //Hourly basis ServiceType
+
+        [FindsBy(How = How.XPath, Using = "//label[contains(text(),'Hourly basis service')]")]
+        private IWebElement hourlyService { get; set; }
+
+        //one off ServiceType
+        [FindsBy(How = How.XPath, Using = "//label[contains(text(),'One-off service')]")]
+        private IWebElement oneOffService { get; set; }
+
+        //onsite location type
+        [FindsBy(How = How.XPath, Using = "//input[@name = 'locationType' and @value = '0']")]
+        private IWebElement onsiteBtn { get; set; }
+
+        //online location type
+        [FindsBy(How = How.XPath, Using = "//input[@name = 'locationType' and @value = '1']")]
+        private IWebElement onlineBtn { get; set; }
 
         //Select start date from calendar
         [FindsBy(How = How.XPath, Using = "//input[@placeholder='Start date']")]
@@ -47,154 +73,128 @@ namespace MarsFramework.Pages
         [FindsBy(How = How.XPath, Using = "//input[@placeholder='End date']")]
         private IWebElement endDate { get; set; }
 
-        //select days
-        //[FindsBy(How = How.Name, Using = "Available")]
-        //private IWebElement daysCheckBox { get; set; }
-
-        //Start time
-        //[FindsBy(How = How.XPath, Using = "//div[@class='twelve wide column']//div[2]//div[2]//input[1]")]
-        //private IWebElement startTime { get; set; }
-
-        //Select credit from skill trade
+        //credit
 
         [FindsBy(How = How.XPath, Using = "//input[@placeholder='Amount']")]
         private IWebElement credit { get; set; }
 
-        //Select skill exchange
+        //skill exchange
         [FindsBy(How = How.XPath, Using = "//div[@class='form-wrapper']//input[@placeholder='Add new tag']")]
         private IWebElement skillExchange { get; set; }
 
-        //Upload Work Samples
+        //Work Samples
         [FindsBy(How = How.XPath, Using = "//i[@class='huge plus circle icon padding-25']")]
         private IWebElement uploadFile { get; set; }
 
-        //Add is Active
-        [FindsBy(How = How.XPath, Using = "//div[10]//div[2]//div[1]//div[2]//div[1]//input[1]")]
-        private IWebElement addActive { get; set; }
+        //Active
+        [FindsBy(How = How.XPath, Using = "//label[text()= 'Active']")]
+        private IWebElement activeBtn { get; set; }
 
-        //Click Save
+        //Hidden
+        [FindsBy(How = How.XPath, Using = "//label[contains(text(),'Hidden')]")]
+        private IWebElement hiddenBtn { get; set; }
+
+
+        //Save
         [FindsBy(How = How.XPath, Using = "//input[@value = 'Save']")]
         private IWebElement saveBtn { get; set; }
 
-        //click on next page
+        //Next page
         [FindsBy(How = How.XPath, Using = "//button[contains(text(),'>')]")]
         private IWebElement nextPageBtn { get; set; }
         #endregion
 
         public void SkillShare()
         {
-            //Explicit wait for Skill share button
-            WebDriverWait skillSharewait = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(20));
-            IWebElement skillShareObj = skillSharewait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//a[contains(text(), 'Share Skill')]")));
-
+            //wait for Skill share button
+            GlobalDefinitions.waitUntilClickable(GlobalDefinitions.driver, 1000, "(//a[contains(text(), 'Share Skill')])", "XPath");
 
             //Populate data from Excel
             GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "SkillShare");
             shareSkillBtn.Click();
 
 
-            //Explicit wait for Title textbox
-            WebDriverWait waitTitle = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(10));
-            IWebElement titleObj = waitTitle.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//h3[contains(text(),'Title')]")));
+            //wait for Title textbox
+            GlobalDefinitions.WaitForElement(Global.GlobalDefinitions.driver, By.XPath("//h3[contains(text(),'Title')]"), 10);
 
             //add Title
             addTitle.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Title"));
+            Base.Test.Log(LogStatus.Pass, "Add Title Successfully, Test passed");
 
             //add Description
             addDescription.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Description"));
-
-            //Explicit wait for Select Category
-            WebDriverWait categoryWait = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(30));
-            IWebElement category = categoryWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Name("categoryId")));
+            Base.Test.Log(LogStatus.Pass, "Add Description Successfully, Test passed");
 
 
-            //Select Category
-            SelectElement categoryObj = new SelectElement(Global.GlobalDefinitions.driver.FindElement(By.Name("categoryId")));
-            categoryObj.SelectByValue("3");
-            //categoryObj.SelectByValue(GlobalDefinitions.ExcelLib.ReadData(2, "Category"));
+            // wait for Select Category
+            GlobalDefinitions.waitUntilClickable(GlobalDefinitions.driver, 1000, "(//select[@name='categoryId'])", "XPath");
+
+            //select category        
+            SelectElement categoryObj = new SelectElement(addCategory);
+            categoryObj.SelectByText(GlobalDefinitions.ExcelLib.ReadData(2, "Category"));
+            Base.Test.Log(LogStatus.Pass, "Add category successfully, Test passed");
 
 
-            //Explicit wait for sub category
-            WebDriverWait subCategoryWait = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(30));
-            IWebElement subCategory = subCategoryWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Name("subcategoryId")));
+            // wait for sub category
+            GlobalDefinitions.waitUntilClickable(GlobalDefinitions.driver, 1000, "(//select[@name='subcategoryId'])", "XPath");
 
             //Select Sub Category
-            SelectElement subCategoryObj = new SelectElement(Global.GlobalDefinitions.driver.FindElement(By.Name("subcategoryId")));
-           
-            subCategoryObj.SelectByIndex(2);
+            SelectElement subCategoryObj = new SelectElement(addSubCategory);
+            subCategoryObj.SelectByValue(GlobalDefinitions.ExcelLib.ReadData(2, "SubCategory"));
+            Base.Test.Log(LogStatus.Pass, "Add subcategory successfully, Test passed");
 
             //add Tags
             addTags.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Tags"));
             addTags.SendKeys(Keys.Enter);
+            Base.Test.Log(LogStatus.Pass, "Add Tags successfully, Test passed");
 
-
-            //Select  Service type
-            IList<IWebElement> serviceRadioBtnO = Global.GlobalDefinitions.driver.FindElements(By.Name("serviceType"));
-
-            // Create a boolean variable which will hold the value (True/False)
-            Boolean serviceType = false;
-
-            // This statement will return True, in case of first Radio button is selected
-            serviceType = serviceRadioBtnO.ElementAt(0).Selected;
-
-            // This will check that if the bValue is True means if the first radio button is selected
-            if (serviceType == true)
+            //Select Service Type
+            switch (GlobalDefinitions.ExcelLib.ReadData(2, "Location"))
             {
-                // This will select Second radio button, if the first radio button is selected by default
-                serviceRadioBtnO.ElementAt(1).Click();
+                case "One-off service":
+                    oneOffService.Click();
+                    break;
+
+                case "Hourly basis service":
+                    hourlyService.Click();
+                    break;
+
+                
             }
-            else
+            Base.Test.Log(LogStatus.Pass, "Service is selcted successfully, Test passed");
+
+            //select location type
+            switch (GlobalDefinitions.ExcelLib.ReadData(2, "Location"))
             {
-                // If the first radio button is not selected by default, the first will be selected
-                serviceRadioBtnO.ElementAt(0).Click();
+                case "On-site":
+                    onsiteBtn.Click();
+                    break;
+
+                case "online":
+                    onlineBtn.Click();
+                    break;
             }
+            Base.Test.Log(LogStatus.Pass, "Location is selected successfully, Test passed");
 
-
-            //Select Location Type
-
-            IList<IWebElement> loacationRadioBtnO = Global.GlobalDefinitions.driver.FindElements(By.Name("locationType"));
-            Boolean locationType = false;
-
-            locationType = loacationRadioBtnO.ElementAt(0).Selected;
-
-            if (locationType == true)
-            {
-                loacationRadioBtnO.ElementAt(1).Click();
-            }
-            else
-            {
-                loacationRadioBtnO.ElementAt(0).Click();
-            }
-
-            //Explicit wait for start date
-            WebDriverWait startDateWait = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(10));
-            IWebElement startDateObj = startDateWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//input[@placeholder='Start date']")));
-
-
-            //Enter date in startdate
-
-           // DateTime date = DateTime.Now.Date;
-           // var date1 = DateTime.Today.AddDays(5);
-
-            //string today = DateTime.Now.ToString();
-            //string answer = today.;
-
+            //wait for start date
+            GlobalDefinitions.waitUntilClickable(GlobalDefinitions.driver, 1000, "(//input[@placeholder='Start date'])", "XPath");
+           
             startDate.Clear();
             startDate.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "StartDate"));
+            Base.Test.Log(LogStatus.Pass, "Add start date, Test passed");
+
 
             //Press tab to shift focus to End date
             startDate.SendKeys(Keys.Tab);
 
-               //Enter date in end date 
+            //Enter End date 
             endDate.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "EndDate"));
+            Base.Test.Log(LogStatus.Pass, "Add End Date, Test passed");
 
             //Press tab to shift focus to End date
             endDate.SendKeys(Keys.Tab);
-            //implict wait
-            Global.GlobalDefinitions.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
 
             //count number of days 
-            //IList<IWebElement> days = Global.GlobalDefinitions.driver.FindElements(By.Name("Available"));
             int noOfDays = Global.GlobalDefinitions.driver.FindElements(By.Name("Available")).Count();
             var i = 1;
             while (i <= noOfDays)
@@ -234,46 +234,7 @@ namespace MarsFramework.Pages
                 i++;
             }
 
-
-
-
-            //    if (daysObj == "Sun")
-
-            //    {
-            //        daysChekBox.Click();
-            //        daysChekBox.SendKeys(Keys.Tab);
-            //        startTime.SendKeys("0940am");
-            //        daysChekBox.SendKeys(Keys.Tab);
-            //        endTime.SendKeys("0500pm");
-            //       // Thread.Sleep(1000);
-            //    }
-            //    else
-            //    {
-            //        if (daysObj == "Tue")
-            //        {
-            //            daysChekBox.Click();
-            //            daysChekBox.SendKeys(Keys.Tab);
-            //            startTime.SendKeys("0800am");
-            //            daysChekBox.SendKeys(Keys.Tab);
-            //            endTime.SendKeys("0310pm");
-
-
-            //        }
-            //        else
-            //        {
-            //            if (daysObj == "Sat")
-            //            {
-            //                daysChekBox.Click();
-            //                daysChekBox.SendKeys(Keys.Tab);
-            //                startTime.SendKeys("0800am");
-            //                daysChekBox.SendKeys(Keys.Tab);
-            //                endTime.SendKeys("0310pm");
-            //                break;
-            //            }
-            //        }
-            //    }
-            //}
-
+            Base.Test.Log(LogStatus.Pass, "Add Available days and time, Test passed");
 
             //Select SkillTrade
 
@@ -285,91 +246,60 @@ namespace MarsFramework.Pages
             {
                 skillTradeObj.ElementAt(1).Click();
                 //Wait for Credit textbox
-                WebDriverWait creditWait = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(20));
-                IWebElement creditObj = creditWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//input[@placeholder='Amount']")));
-                //Global.GlobalDefinitions.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(100);
-                credit.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Credit"));
+                GlobalDefinitions.WaitForElement(Global.GlobalDefinitions.driver, By.XPath("//input[@placeholder='Amount']"), 10);
+                          
+               credit.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Credit"));
             }
             else
             {
                 skillTradeObj.ElementAt(0).Click();
                 //Wait for skill exchange textbox
-                WebDriverWait skillExchangetWait = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(20));
-                IWebElement skillExObj = skillExchangetWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//div[@class='form-wrapper']//input[@placeholder='Add new tag']")));
-                // Global.GlobalDefinitions.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(100);
+                GlobalDefinitions.WaitForElement(Global.GlobalDefinitions.driver, By.XPath("//div[@class='form-wrapper']//input[@placeholder='Add new tag']"), 10);
+                          
                 skillExchange.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Skill-Exchange"));
             }
 
-            //Wait for work sample
-            WebDriverWait workSampleWait = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(20));
-            IWebElement workSamplexObj = workSampleWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//i[@class='huge plus circle icon padding-25']")));
+            Base.Test.Log(LogStatus.Pass, "Add skill Trade, Test passed");
 
-            ////select file for work sample
+            //Wait for work sample
+            GlobalDefinitions.WaitForElement(Global.GlobalDefinitions.driver, By.XPath("//i[@class='huge plus circle icon padding-25']"), 10);
+            //select file for work sample
             uploadFile.Click();
             //create a AutoIT class and object
             AutoItX3 autoIt = new AutoItX3();
             autoIt.WinActivate("Open");
-            Thread.Sleep(1000);
-            autoIt.Send(@"C:\Users\minty\OneDrive\Documents\Standard\SampleImage.jpg");
-            Global.GlobalDefinitions.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            GlobalDefinitions.wait(50);
+            autoIt.Send(GlobalDefinitions.ExcelLib.ReadData(2, "WorkSamples"));
+            GlobalDefinitions.wait(50);
             autoIt.Send("{Enter}");
 
-            //implict wait
-            Global.GlobalDefinitions.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            Base.Test.Log(LogStatus.Pass, "WorkSample uploaded, Test passed");
+
+           
+            GlobalDefinitions.WaitForElement(Global.GlobalDefinitions.driver, By.XPath("//div[10]//div[2]//div[1]//div[1]//div[1]//input[1]"), 10);
 
             // Select Active
-            addActive.Click();
+            switch (GlobalDefinitions.ExcelLib.ReadData(2, "IsActive"))
+            {
+                case "Hidden":
+                    hiddenBtn.Click();
+                    break;
 
+                case "Active":
+                    activeBtn.Click();
+                    break;
 
-            //implict wait
-            Global.GlobalDefinitions.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            }
+            Base.Test.Log(LogStatus.Pass, "Is Active selected, Test passed");
+
             //wait for save button
-            WebDriverWait saveBtnWait = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(20));
-            IWebElement saveBtnObj = saveBtnWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//input[@value = 'Save']")));
+            GlobalDefinitions.waitUntilClickable(GlobalDefinitions.driver, 1000, "(//input[@value = 'Save'])", "XPath");
+            
 
             //click Save
             saveBtn.Click();
 
         }
-
-
-
-        public void ValidateTheSkillAdded()
-        {
-            WebDriverWait wait1 = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(20));
-            IWebElement element1 = wait1.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//h2[contains(text(),'Manage Listings')]")));
-            IList<IWebElement> noOfPages = Global.GlobalDefinitions.driver.FindElements(By.XPath("//button[@class='ui button otherPage']"));
-
-            for (int i = 0; i <= noOfPages.Count; i++)
-            {
-                //IList<IWebElement> noOfRows = Global.GlobalDefinitions.driver.FindElements(By.XPath("//td[@class='two wide']"));
-                for (int j = 1; j <= 5; j++)
-
-                {
-                    var titleObj = Global.GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='listing-management-section']/div[2]/div[1]/table/tbody/tr[" + j + "]/td[3]")).Text;
-                    var categoryObj = Global.GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='listing-management-section']/div[2]/div[1]/table/tbody/tr[" + j + "]/td[2]")).Text;
-
-                    Global.GlobalDefinitions.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-
-
-                    if (titleObj == (GlobalDefinitions.ExcelLib.ReadData(2, "Title")))
-                    {
-                        Global.Base.Test.Log(RelevantCodes.ExtentReports.LogStatus.Pass, "Skill added Successfully");
-                        return;
-                    }
-
-                }
-                //click next page
-                nextPageBtn.Click();
-            }
-
-
-
-
-
-        }
-
-
 
 
     }

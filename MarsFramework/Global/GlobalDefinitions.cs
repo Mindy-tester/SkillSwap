@@ -27,8 +27,25 @@ namespace MarsFramework.Global
         public static IWebElement WaitForElement(IWebDriver driver, By by, int timeOutinSeconds)
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeOutinSeconds));
-            return (wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//a[@class='item']"))));
+            return (wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(by)));
         }
+        //wait for element to be clickable
+
+            public static void waitUntilClickable(IWebDriver driver, int timeSeconds, string LocatorValue, string LocatorType)
+        {
+            if(LocatorType == "Xpath")
+            {
+                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeSeconds));
+                wait.Until(drv => drv.FindElement(By.XPath(LocatorValue)));
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath(LocatorValue)));
+            }
+
+
+        }
+
+
+
+
         #endregion
 
 
@@ -129,6 +146,7 @@ namespace MarsFramework.Global
         }
 
         #endregion
+     
 
         #region screenshots
         public class SaveScreenShotClass

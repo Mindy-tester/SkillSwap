@@ -38,6 +38,8 @@ namespace MarsFramework.Pages
         #endregion
         public void ValidateTheSkillAdded()
         {
+
+            manageListing.Click();
             WebDriverWait wait1 = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(20));
             IWebElement element1 = wait1.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//h2[contains(text(),'Manage Listings')]")));
             IList<IWebElement> noOfPages = Global.GlobalDefinitions.driver.FindElements(By.XPath("//button[@class='ui button otherPage']"));
@@ -48,7 +50,9 @@ namespace MarsFramework.Pages
                 for (int j = 1; j <= 5; j++)
 
                 {
-                    var titleObj = Global.GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='listing-management-section']/div[2]/div[1]/table/tbody/tr[" + j + "]/td[3]")).Text;
+                    //var titleObj = Global.GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='listing-management-section']/div[2]/div[1]/table/tbody/tr[" + j + "]/td[3]")).Text;
+                    var titleObj = Global.GlobalDefinitions.driver.FindElement(By.XPath("//td[@class = 'two wide']["+ j + "]")).Text;
+                    Console.WriteLine(titleObj);
                     var categoryObj = Global.GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='listing-management-section']/div[2]/div[1]/table/tbody/tr[" + j + "]/td[2]")).Text;
 
                     Global.GlobalDefinitions.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);

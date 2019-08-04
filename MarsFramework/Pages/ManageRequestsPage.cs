@@ -2,6 +2,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
+using RelevantCodes.ExtentReports;
 using SeleniumExtras.PageObjects;
 using System;
 using System.Collections.Generic;
@@ -50,17 +51,18 @@ namespace MarsFramework.Pages
 
             Actions manageRequestaction = new Actions(Global.GlobalDefinitions.driver);
             manageRequestaction.MoveToElement(Global.GlobalDefinitions.driver.FindElement(By.XPath("//div[contains(text(), 'Manage Requests')]"))).Click().Build().Perform();
-
-            WebDriverWait recievedRequetsWait = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(10));
-            IWebElement recievedRequestObj = recievedRequetsWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//a[contains(text(),'Received Requests')]")));
+            //wait for Recieved Request
+            GlobalDefinitions.waitUntilClickable(GlobalDefinitions.driver, 1000, "(//a[contains(text(),'Received Requests')])", "XPath");
+            //click on recieved requests
             recievedRequests.Click();
-
+            Base.Test.Log(LogStatus.Pass, "open Recieved Request, Test passed");
             Actions action = new Actions(Global.GlobalDefinitions.driver);
             action.MoveToElement(Global.GlobalDefinitions.driver.FindElement(By.XPath("//div[contains(text(), 'Manage Requests')]"))).Click().Build().Perform();
-
-            WebDriverWait sentRequetsWait = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(10));
-            IWebElement sentRequestObj = sentRequetsWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//a[contains(text(),'Sent Requests')]")));
+            //wait for sent requests
+            GlobalDefinitions.waitUntilClickable(GlobalDefinitions.driver, 1000, "(//a[contains(text(),'Sent Requests')])", "XPath");
+            //click on sent requets
             sentRequests.Click();
+            Base.Test.Log(LogStatus.Pass, "open send requests, Test passed");
 
 
 
@@ -70,83 +72,52 @@ namespace MarsFramework.Pages
         {
             //Populate data from Excel
             GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "SearchSkills");
-            WebDriverWait skillWait = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(10));
-            IWebElement skillObj = skillWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//input[@placeholder='Search skills']")));
+
+            //wait for skill searchbox
+            GlobalDefinitions.WaitForElement(Global.GlobalDefinitions.driver, By.XPath("//input[@placeholder='Search skills']"), 10);
+
 
             //Enter skill in skill search
             searchSkills.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Skill"));
             searchSkills.SendKeys(Keys.Enter);
 
-            //Explicit wait for All categories
-            WebDriverWait allCategoriesWait = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(10));
-            IWebElement allCategoriesObj = allCategoriesWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//b[contains(text(),'All Categories')]")));
-
-
-            //Actions cat = new Actions(Global.GlobalDefinitions.driver);
-            //cat.MoveToElement(Global.GlobalDefinitions.driver.FindElement(By.XPath("//b[contains(text(),'All Categories')]"))).Click().Build().Perform();
+            // wait for All categories
+            GlobalDefinitions.waitUntilClickable(GlobalDefinitions.driver, 1000, "(//b[contains(text(),'All Categories')])", "XPath");
 
             //click on all category
             Global.GlobalDefinitions.driver.FindElement(By.XPath("//b[contains(text(),'All Categories')]")).Click();
 
-            //Explicit wait for categories
-            WebDriverWait categoriesWait = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(10));
-            IWebElement categoriesObj = categoriesWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='service-search-section']/div[2]/div/section/div/div[1]/div[1]/div/a[4]")));
-
-
-            //Actions clickCategory = new Actions(Global.GlobalDefinitions.driver);
-            //clickCategory.MoveToElement(Global.GlobalDefinitions.driver.FindElement(By.XPath("//a[@role = 'listitem']//b[text() = 'Writing & Translation']"))).Click().Build().Perform();
+            //wait for category
+            GlobalDefinitions.WaitForElement(Global.GlobalDefinitions.driver, By.XPath("//a[@role = 'listitem' and text() ='Graphics & Design']"), 10);
 
             //click on category
-            Global.GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='service-search-section']/div[2]/div/section/div/div[1]/div[1]/div/a[4]")).Click();
+            
+            GlobalDefinitions.driver.FindElement(By.XPath("//a[@role = 'listitem' and text() ='Graphics & Design']")).Click();
 
-            //wait for sub category
-            //WebDriverWait subCategoriesWait = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(10));
-            //IWebElement subCategoriesObj = subCategoriesWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='service-search-section']/div[2]/div/section/div/div[1]/div[1]/div/a[4]")));
+            Base.Test.Log(LogStatus.Pass, "Search Skill by category successfully");
+            //wait for sub category  
+            GlobalDefinitions.WaitForElement(Global.GlobalDefinitions.driver, By.XPath("//a[@role = 'listitem' and text() = 'Logo Design']"), 10);
+           
+            //click on sub category
+            Global.GlobalDefinitions.driver.FindElement(By.XPath("//a[@role = 'listitem' and text() = 'Logo Design']")).Click();
 
-            ////click on sub category
-            //Global.GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='service-search-section']/div[2]/div/section/div/div[1]/div[1]/div/a[4]")).Click();
+           Base.Test.Log(LogStatus.Pass, "Search Skill by sub category successfully");
 
-            Global.GlobalDefinitions.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-
-            Global.Base.Test.Log(RelevantCodes.ExtentReports.LogStatus.Pass, "Search Skill Successfully");
             //click onsite
             Global.GlobalDefinitions.driver.FindElement(By.XPath("//button[contains(text(),'Onsite')]")).Click();
-
-            Global.GlobalDefinitions.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            GlobalDefinitions.wait(10);
 
             //click on online 
             Global.GlobalDefinitions.driver.FindElement(By.XPath("//button[contains(text(),'Online')]")).Click();
 
-            Global.GlobalDefinitions.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-
             //click on chat button
             chatButton.Click();
 
-            Global.GlobalDefinitions.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
             //click on notification
             Global.GlobalDefinitions.driver.FindElement(By.XPath("//div[@class='ui top left pointing dropdown item']")).Click();
 
 
 
-
-
-
-            //IList<IWebElement> categoryTxt = Global.GlobalDefinitions.driver.FindElements(By.XPath("//a[@class= 'item subcategory']"));
-
-            //for (int i = 1; i <= categoryTxt.Count; i++)
-            //{
-            //    var catObj = Global.GlobalDefinitions.driver.FindElement(By.XPath("//b[contains(text(),'+ i +')]"));
-            //    Thread.Sleep(1000);
-            //    if (catObj.)
-            //    {
-            //        // Actions clickCategory = new Actions(Global.GlobalDefinitions.driver);
-            //        //clickCategory.DoubleClick(Global.GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='service-search-section']/div[2]/div/section/div/div[1]/div[1]/div/a[" + i + "]"))).Build().Perform();
-            //        Global.GlobalDefinitions.driver.FindElement(By.XPath("//b[contains(text(),'+ i +')]")).Click();
-            //        Console.WriteLine("passed");
-
-
-            //    }
-            //}
 
         }
 

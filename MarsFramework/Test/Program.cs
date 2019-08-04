@@ -40,8 +40,9 @@ namespace MarsFramework
             {
 
                 ManageListingsPage manageListingObj = new ManageListingsPage();
-                manageListingObj.DeleteListing();
-                manageListingObj.ValidatedDeletedSkills();
+                manageListingObj.ValidateTheSkillAdded();
+                //manageListingObj.DeleteListing();
+                //manageListingObj.ValidatedDeletedSkills();
 
             }
             [Test, Order(3)]

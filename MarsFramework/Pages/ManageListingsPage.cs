@@ -38,29 +38,28 @@ namespace MarsFramework.Pages
         #endregion
         public void ValidateTheSkillAdded()
         {
-
+            //click on Manage Listings
             manageListing.Click();
-            WebDriverWait wait1 = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(20));
-            IWebElement element1 = wait1.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//h2[contains(text(),'Manage Listings')]")));
-            IList<IWebElement> noOfPages = Global.GlobalDefinitions.driver.FindElements(By.XPath("//button[@class='ui button otherPage']"));
+            //Populate data from Excel
+            GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "SkillShare");
+            //wait for manage listing
+            GlobalDefinitions.WaitForElement(GlobalDefinitions.driver, By.XPath("//h2[contains(text(),'Manage Listings')]"), 10);
+            //number of pages
+            IList<IWebElement> noOfPages = GlobalDefinitions.driver.FindElements(By.XPath("//button[@class='ui button otherPage']"));
 
             for (int i = 0; i <= noOfPages.Count; i++)
             {
-                //IList<IWebElement> noOfRows = Global.GlobalDefinitions.driver.FindElements(By.XPath("//td[@class='two wide']"));
+
                 for (int j = 1; j <= 5; j++)
 
                 {
-                    //var titleObj = Global.GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='listing-management-section']/div[2]/div[1]/table/tbody/tr[" + j + "]/td[3]")).Text;
-                    var titleObj = Global.GlobalDefinitions.driver.FindElement(By.XPath("//td[@class = 'two wide']["+ j + "]")).Text;
+                    GlobalDefinitions.WaitForElement(GlobalDefinitions.driver, By.XPath("//tr[1]//td[3]"), 10);
+                    var titleObj = GlobalDefinitions.driver.FindElement(By.XPath("//tr[" + j + "]//td[3]")).Text;
                     Console.WriteLine(titleObj);
-                    var categoryObj = Global.GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='listing-management-section']/div[2]/div[1]/table/tbody/tr[" + j + "]/td[2]")).Text;
-
-                    Global.GlobalDefinitions.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-
-
+                    GlobalDefinitions.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
                     if (titleObj == (GlobalDefinitions.ExcelLib.ReadData(2, "Title")))
                     {
-                        Global.Base.Test.Log(RelevantCodes.ExtentReports.LogStatus.Pass, "Skill added Successfully");
+                        Base.Test.Log(LogStatus.Pass, "Add Skill successfully, Test passed");
                         return;
                     }
 
@@ -76,94 +75,46 @@ namespace MarsFramework.Pages
             //Populate data from Excel
             GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "SkillShare");
 
-            WebDriverWait wait1 = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(100));
-            IWebElement element1 = wait1.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//h2[contains(text(),'Manage Listings')]")));
-            
-            try
-            {
-                IList<IWebElement> noOfPages = Global.GlobalDefinitions.driver.FindElements(By.XPath("//button[@class='ui button otherPage']"));
+            //wait for manage listing
+            GlobalDefinitions.WaitForElement(GlobalDefinitions.driver, By.XPath("//h2[contains(text(),'Manage Listings')]"), 10);
+                                 
 
-                for (int i = 0; i <= noOfPages.Count; i++)
+            while(true)
+            {
+
+                for (int j = 1; j <= 5; j++)
+
                 {
+                    GlobalDefinitions.WaitForElement(GlobalDefinitions.driver, By.XPath("//tr[1]//td[3]"), 10);
+                    var categoryObj = GlobalDefinitions.driver.FindElement(By.XPath("//tr[" + j + "]//td[2]")).Text;
+                    var titleObj = GlobalDefinitions.driver.FindElement(By.XPath("//tr[" + j + "]//td[3]")).Text;
 
-                    for (int j = 1; j <= 5; j++)
+                    Console.WriteLine(titleObj);
+                    Console.WriteLine(categoryObj);
+                    IWebElement deleteListing = Global.GlobalDefinitions.driver.FindElement(By.XPath("//tr[" + j + "]//td[8]//i[3]"));
 
+                    GlobalDefinitions.wait(10);
+                    if (titleObj == GlobalDefinitions.ExcelLib.ReadData(2, "Title") && categoryObj == "Writing & Translation")
                     {
-                        var titleObj = Global.GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='listing-management-section']/div[2]/div[1]/table/tbody/tr[" + j + "]/td[3]")).Text;
-                        var categoryObj = Global.GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='listing-management-section']/div[2]/div[1]/table/tbody/tr[" + j + "]/td[2]")).Text;
-                        Console.WriteLine(titleObj);
-                        Console.WriteLine(categoryObj);
-                        IWebElement deleteListing = Global.GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='listing-management-section']/div[2]/div[1]/table/tbody/tr[" + j + " ]/td[8]/i[3]"));
+                        //wait for delete btn
+                        GlobalDefinitions.waitUntilClickable(GlobalDefinitions.driver, 1000, "(//tr[" + j + "]//td[8]//i[3])", "XPath");
 
-                        Global.GlobalDefinitions.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-                        if (titleObj == GlobalDefinitions.ExcelLib.ReadData(2, "Title") && categoryObj == "Writing & Translation")
-                        {
-                            //Explicit wait for delete btn
-                            WebDriverWait deleteListingWait = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(10));
-                            IWebElement deleteListingObj = deleteListingWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//*[@id='listing-management-section']/div[2]/div[1]/table/tbody/tr[" + j + " ]/td[8]/i[3]")));
-                            //Console.WriteLine(titleObj);
-                            //Global.GlobalDefinitions.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(60);
-                            deleteListing.Click();
-                            //Explicit wait for accept btn
-                            WebDriverWait acceptBtnWait = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(10));
-                            IWebElement acceptBtnObj = acceptBtnWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//button[@class='ui icon positive right labeled button']")));
-                            //Global.GlobalDefinitions.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-                            acceptBtn.Click();
+                        deleteListing.Click();
+                        //wait for accept btn
+                        GlobalDefinitions.waitUntilClickable(GlobalDefinitions.driver, 1000, "(//button[@class='ui icon positive right labeled button'])", "XPath");
+                        acceptBtn.Click();
 
-                            return;
+                        Base.Test.Log(LogStatus.Pass, "Skill deleted successfully, Test passed");
 
-                        }
+                        return;
                     }
-                    //click next page
-                    nextPageBtn.Click();
                 }
+                //click next page
+                nextPageBtn.Click();
             }
-
-
-            catch (Exception)
-            {
-                Global.Base.Test.Log(RelevantCodes.ExtentReports.LogStatus.Pass, "deleted failed");
-            }
-
-
 
         }
-        public void ValidatedDeletedSkills()
-        {
-
-            manageListing.Click();
-            //Populate data from Excel
-            GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "SkillShare");
-
-            IList<IWebElement> noOfPages = Global.GlobalDefinitions.driver.FindElements(By.XPath("//button[@class='ui button otherPage']"));
-            try
-            {
-                for (int i = 0; i <= noOfPages.Count; i++)
-                {
-                    for (int j = 1; j <= 5; j++)
-
-                    {
-                        var titleObj = Global.GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='listing-management-section']/div[2]/div[1]/table/tbody/tr[" + j + "]/td[3]")).Text;
-                        var categoryObj = Global.GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='listing-management-section']/div[2]/div[1]/table/tbody/tr[" + j + "]/td[2]")).Text;
-
-                        if (titleObj == GlobalDefinitions.ExcelLib.ReadData(2, "Title") && categoryObj == "Writing & Translation")
-                        {
-                            Global.Base.Test.Log(RelevantCodes.ExtentReports.LogStatus.Pass, "Skill deleted failed");
-                        }
-
-                    }
-                    //click next page
-                    nextPageBtn.Click();
-                }
-            }
-            catch (Exception)
-            {
-                Global.Base.Test.Log(RelevantCodes.ExtentReports.LogStatus.Pass, "Skill deleted passed");
-            }
-
-
-        }
-
+       
 
 
         public void UpdatedListing()
@@ -171,33 +122,32 @@ namespace MarsFramework.Pages
             manageListing.Click();
             //Populate data from Excel
             GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "SkillShare");
+
             SkillSharePage updSkillObj = new SkillSharePage();
 
-            WebDriverWait manageListingWait = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(20));
-            IWebElement manageListingObj = manageListingWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//h2[contains(text(),'Manage Listings')]")));
-
-            //IList<IWebElement> noOfPages = Global.GlobalDefinitions.driver.FindElements(By.XPath("//div[@class='ui buttons semantic-ui-react-button-pagination']"));
-            IList<IWebElement> noOfPages = Global.GlobalDefinitions.driver.FindElements(By.XPath("//button[@class='ui button otherPage']"));
-
-            for (int i = 0; i <= noOfPages.Count; i++)
+            //wait for manage listing
+            GlobalDefinitions.WaitForElement(GlobalDefinitions.driver, By.XPath("//h2[contains(text(),'Manage Listings')]"), 10);
+                                   
+            while(true)
             {
 
                 for (int j = 1; j <= 5; j++)
 
                 {
-                    Global.GlobalDefinitions.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-                    var titleObj = Global.GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='listing-management-section']/div[2]/div[1]/table/tbody/tr[" + j + "]/td[3]")).Text;
-                    var categoryObj = Global.GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='listing-management-section']/div[2]/div[1]/table/tbody/tr[" + j + "]/td[2]")).Text;
+                    GlobalDefinitions.WaitForElement(GlobalDefinitions.driver, By.XPath("//tr[1]//td[3]"), 10);
+                    var categoryObj = Global.GlobalDefinitions.driver.FindElement(By.XPath("//tr[" + j + "]//td[2]")).Text;
+                    var titleObj = GlobalDefinitions.driver.FindElement(By.XPath("//tr[" + j + "]//td[3]")).Text;
 
-                    IWebElement updateListing = Global.GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='listing-management-section']/div[2]/div[1]/table/tbody/tr[" + j + "]/td[8]/i[2]"));
-                    Global.GlobalDefinitions.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+                    IWebElement updateListing = GlobalDefinitions.driver.FindElement(By.XPath("//tr["+ j + "]//td[8]//i[2]"));
+                    GlobalDefinitions.wait(10);
                     if (titleObj == "ttt" && categoryObj == "Programming & Tech")
                     {
-                        //Global.GlobalDefinitions.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+                        //wait for update btn
+                        GlobalDefinitions.waitUntilClickable(GlobalDefinitions.driver, 1000, "(//tr[" + j + "]//td[8]//i[2])", "XPath");
                         updateListing.Click();
-                        Global.GlobalDefinitions.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+                        GlobalDefinitions.wait(10);
                         updSkillObj.SkillShare();
-                        Base.Test.Log(LogStatus.Info, "Skill Updated");
+                        Base.Test.Log(LogStatus.Pass, "Skill updated successfully, Test passed");
                         return;
                     }
                 }

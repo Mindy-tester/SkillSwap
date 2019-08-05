@@ -61,9 +61,7 @@ namespace MarsFramework.Pages
 
             //Click on Login button
             LoginBtn.Click();
-            WebDriverWait wait = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(20));
-            IWebElement element = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//a[@class='ui basic green button']")));
-
+            GlobalDefinitions.waitUntilClickable(GlobalDefinitions.driver, 1000, "(//a[@class='ui basic green button'])", "XPath");
 
             var text = Global.GlobalDefinitions.driver.FindElement(By.XPath("//a[contains(text(),'Mars Logo')]")).Text;
             Console.WriteLine(text);

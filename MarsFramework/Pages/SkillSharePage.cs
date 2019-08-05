@@ -73,7 +73,17 @@ namespace MarsFramework.Pages
         [FindsBy(How = How.XPath, Using = "//input[@placeholder='End date']")]
         private IWebElement endDate { get; set; }
 
-        //credit
+        //Select Skill Exchange
+
+        [FindsBy(How = How.XPath, Using = "//label[text() = 'Skill-exchange']")]
+        private IWebElement selectSkillExchange { get; set; }
+
+
+        //Select credit
+        [FindsBy(How = How.XPath, Using = "//label[text() = 'Credit']")]
+        private IWebElement selectCredit { get; set; }
+
+        //Enter credit
 
         [FindsBy(How = How.XPath, Using = "//input[@placeholder='Amount']")]
         private IWebElement credit { get; set; }
@@ -115,7 +125,7 @@ namespace MarsFramework.Pages
 
 
             //wait for Title textbox
-            GlobalDefinitions.WaitForElement(Global.GlobalDefinitions.driver, By.XPath("//h3[contains(text(),'Title')]"), 10);
+            GlobalDefinitions.WaitForElement(GlobalDefinitions.driver, By.XPath("//h3[contains(text(),'Title')]"), 10);
 
             //add Title
             addTitle.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Title"));
@@ -159,7 +169,7 @@ namespace MarsFramework.Pages
                     hourlyService.Click();
                     break;
 
-                
+
             }
             Base.Test.Log(LogStatus.Pass, "Service is selcted successfully, Test passed");
 
@@ -178,7 +188,7 @@ namespace MarsFramework.Pages
 
             //wait for start date
             GlobalDefinitions.waitUntilClickable(GlobalDefinitions.driver, 1000, "(//input[@placeholder='Start date'])", "XPath");
-           
+
             startDate.Clear();
             startDate.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "StartDate"));
             Base.Test.Log(LogStatus.Pass, "Add start date, Test passed");
@@ -195,14 +205,14 @@ namespace MarsFramework.Pages
             endDate.SendKeys(Keys.Tab);
 
             //count number of days 
-            int noOfDays = Global.GlobalDefinitions.driver.FindElements(By.Name("Available")).Count();
+            int noOfDays = GlobalDefinitions.driver.FindElements(By.Name("Available")).Count();
             var i = 1;
             while (i <= noOfDays)
             {
-                var daysObj = Global.GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='service-listing-section']/div[2]/div/form/div[7]/div[2]/div/div[" + (i + 1) + "]/div[1]/div/label")).Text;
-                var daysChekBox = Global.GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='service-listing-section']/div[2]/div/form/div[7]/div[2]/div/div[" + (i + 1) + "]/div[1]/div/input"));
-                var startTime = Global.GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='service-listing-section']/div[2]/div/form/div[7]/div[2]/div/div[" + (i + 1) + "]/div[2]/input"));
-                var endTime = Global.GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='service-listing-section']/div[2]/div/form/div[7]/div[2]/div/div[" + (i + 1) + "]/div[3]/input"));
+                var daysObj = GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='service-listing-section']/div[2]/div/form/div[7]/div[2]/div/div[" + (i + 1) + "]/div[1]/div/label")).Text;
+                var daysChekBox = GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='service-listing-section']/div[2]/div/form/div[7]/div[2]/div/div[" + (i + 1) + "]/div[1]/div/input"));
+                var startTime = GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='service-listing-section']/div[2]/div/form/div[7]/div[2]/div/div[" + (i + 1) + "]/div[2]/input"));
+                var endTime = GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='service-listing-section']/div[2]/div/form/div[7]/div[2]/div/div[" + (i + 1) + "]/div[3]/input"));
 
                 switch (daysObj)
                 {
@@ -237,29 +247,23 @@ namespace MarsFramework.Pages
             Base.Test.Log(LogStatus.Pass, "Add Available days and time, Test passed");
 
             //Select SkillTrade
-
-            IList<IWebElement> skillTradeObj = Global.GlobalDefinitions.driver.FindElements(By.Name("skillTrades"));
-
-            bool skillTrade = skillTradeObj.ElementAt(0).Selected;
-
-            if (skillTrade == true)
+            switch (GlobalDefinitions.ExcelLib.ReadData(2, "Skill Trade"))
             {
-                skillTradeObj.ElementAt(1).Click();
-                //Wait for Credit textbox
-                GlobalDefinitions.WaitForElement(Global.GlobalDefinitions.driver, By.XPath("//input[@placeholder='Amount']"), 10);
-                          
-               credit.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Credit"));
-            }
-            else
-            {
-                skillTradeObj.ElementAt(0).Click();
-                //Wait for skill exchange textbox
-                GlobalDefinitions.WaitForElement(Global.GlobalDefinitions.driver, By.XPath("//div[@class='form-wrapper']//input[@placeholder='Add new tag']"), 10);
-                          
-                skillExchange.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Skill-Exchange"));
-            }
+                case "Skill-exchange":
+                    selectSkillExchange.Click();
+                    GlobalDefinitions.WaitForElement(Global.GlobalDefinitions.driver, By.XPath("//div[@class='form-wrapper']//input[@placeholder='Add new tag']"), 10);
+                    skillExchange.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Skill-Exchange"));
+                    break;
 
+                case "Credit":
+
+                    selectCredit.Click();
+                    GlobalDefinitions.WaitForElement(Global.GlobalDefinitions.driver, By.XPath("//input[@placeholder='Amount']"), 10);
+                    credit.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Credit"));
+                    break;
+            }
             Base.Test.Log(LogStatus.Pass, "Add skill Trade, Test passed");
+
 
             //Wait for work sample
             GlobalDefinitions.WaitForElement(Global.GlobalDefinitions.driver, By.XPath("//i[@class='huge plus circle icon padding-25']"), 10);
@@ -268,15 +272,15 @@ namespace MarsFramework.Pages
             //create a AutoIT class and object
             AutoItX3 autoIt = new AutoItX3();
             autoIt.WinActivate("Open");
-            GlobalDefinitions.wait(50);
+            GlobalDefinitions.wait(100);
             autoIt.Send(GlobalDefinitions.ExcelLib.ReadData(2, "WorkSamples"));
-            GlobalDefinitions.wait(50);
+            GlobalDefinitions.wait(100);
             autoIt.Send("{Enter}");
 
             Base.Test.Log(LogStatus.Pass, "WorkSample uploaded, Test passed");
 
-           
-            GlobalDefinitions.WaitForElement(Global.GlobalDefinitions.driver, By.XPath("//div[10]//div[2]//div[1]//div[1]//div[1]//input[1]"), 10);
+
+            GlobalDefinitions.WaitForElement(GlobalDefinitions.driver, By.XPath("//label[text()  = 'Active']"), 10);
 
             // Select Active
             switch (GlobalDefinitions.ExcelLib.ReadData(2, "IsActive"))
@@ -294,7 +298,7 @@ namespace MarsFramework.Pages
 
             //wait for save button
             GlobalDefinitions.waitUntilClickable(GlobalDefinitions.driver, 1000, "(//input[@value = 'Save'])", "XPath");
-            
+
 
             //click Save
             saveBtn.Click();

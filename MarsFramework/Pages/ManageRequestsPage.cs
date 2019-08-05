@@ -17,7 +17,7 @@ namespace MarsFramework.Pages
     {
         public ManageRequestsPage()
         {
-            PageFactory.InitElements(Global.GlobalDefinitions.driver, this);
+            PageFactory.InitElements(GlobalDefinitions.driver, this);
         }
 
         #region
@@ -49,15 +49,15 @@ namespace MarsFramework.Pages
         public void Requests()
         {
 
-            Actions manageRequestaction = new Actions(Global.GlobalDefinitions.driver);
-            manageRequestaction.MoveToElement(Global.GlobalDefinitions.driver.FindElement(By.XPath("//div[contains(text(), 'Manage Requests')]"))).Click().Build().Perform();
+            Actions manageRequestaction = new Actions(GlobalDefinitions.driver);
+            manageRequestaction.MoveToElement(GlobalDefinitions.driver.FindElement(By.XPath("//div[contains(text(), 'Manage Requests')]"))).Click().Build().Perform();
             //wait for Recieved Request
             GlobalDefinitions.waitUntilClickable(GlobalDefinitions.driver, 1000, "(//a[contains(text(),'Received Requests')])", "XPath");
             //click on recieved requests
             recievedRequests.Click();
             Base.Test.Log(LogStatus.Pass, "open Recieved Request, Test passed");
-            Actions action = new Actions(Global.GlobalDefinitions.driver);
-            action.MoveToElement(Global.GlobalDefinitions.driver.FindElement(By.XPath("//div[contains(text(), 'Manage Requests')]"))).Click().Build().Perform();
+            Actions action = new Actions(GlobalDefinitions.driver);
+            action.MoveToElement(GlobalDefinitions.driver.FindElement(By.XPath("//div[contains(text(), 'Manage Requests')]"))).Click().Build().Perform();
             //wait for sent requests
             GlobalDefinitions.waitUntilClickable(GlobalDefinitions.driver, 1000, "(//a[contains(text(),'Sent Requests')])", "XPath");
             //click on sent requets
@@ -85,36 +85,36 @@ namespace MarsFramework.Pages
             GlobalDefinitions.waitUntilClickable(GlobalDefinitions.driver, 1000, "(//b[contains(text(),'All Categories')])", "XPath");
 
             //click on all category
-            Global.GlobalDefinitions.driver.FindElement(By.XPath("//b[contains(text(),'All Categories')]")).Click();
+            GlobalDefinitions.driver.FindElement(By.XPath("//b[contains(text(),'All Categories')]")).Click();
 
             //wait for category
-            GlobalDefinitions.WaitForElement(Global.GlobalDefinitions.driver, By.XPath("//a[@role = 'listitem' and text() ='Graphics & Design']"), 10);
+            GlobalDefinitions.WaitForElement(GlobalDefinitions.driver, By.XPath("//a[@role = 'listitem' and text() ='Graphics & Design']"), 10);
 
             //click on category
-            
+
             GlobalDefinitions.driver.FindElement(By.XPath("//a[@role = 'listitem' and text() ='Graphics & Design']")).Click();
 
             Base.Test.Log(LogStatus.Pass, "Search Skill by category successfully");
             //wait for sub category  
             GlobalDefinitions.WaitForElement(Global.GlobalDefinitions.driver, By.XPath("//a[@role = 'listitem' and text() = 'Logo Design']"), 10);
-           
-            //click on sub category
-            Global.GlobalDefinitions.driver.FindElement(By.XPath("//a[@role = 'listitem' and text() = 'Logo Design']")).Click();
 
-           Base.Test.Log(LogStatus.Pass, "Search Skill by sub category successfully");
+            //click on sub category
+            GlobalDefinitions.driver.FindElement(By.XPath("//a[@role = 'listitem' and text() = 'Logo Design']")).Click();
+
+            Base.Test.Log(LogStatus.Pass, "Search Skill by sub category successfully");
 
             //click onsite
-            Global.GlobalDefinitions.driver.FindElement(By.XPath("//button[contains(text(),'Onsite')]")).Click();
+            GlobalDefinitions.driver.FindElement(By.XPath("//button[contains(text(),'Onsite')]")).Click();
             GlobalDefinitions.wait(10);
 
             //click on online 
-            Global.GlobalDefinitions.driver.FindElement(By.XPath("//button[contains(text(),'Online')]")).Click();
+            GlobalDefinitions.driver.FindElement(By.XPath("//button[contains(text(),'Online')]")).Click();
 
             //click on chat button
             chatButton.Click();
 
             //click on notification
-            Global.GlobalDefinitions.driver.FindElement(By.XPath("//div[@class='ui top left pointing dropdown item']")).Click();
+            GlobalDefinitions.driver.FindElement(By.XPath("//div[@class='ui top left pointing dropdown item']")).Click();
 
 
 

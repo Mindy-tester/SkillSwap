@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MarsFramework.Global
 {
-   public class GlobalDefinitions
+    public class GlobalDefinitions
     {
         //Initialise the browser
         public static IWebDriver driver { get; set; }
@@ -31,9 +31,9 @@ namespace MarsFramework.Global
         }
         //wait for element to be clickable
 
-            public static void waitUntilClickable(IWebDriver driver, int timeSeconds, string LocatorValue, string LocatorType)
+        public static void waitUntilClickable(IWebDriver driver, int timeSeconds, string LocatorValue, string LocatorType)
         {
-            if(LocatorType == "Xpath")
+            if (LocatorType == "Xpath")
             {
                 WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeSeconds));
                 wait.Until(drv => drv.FindElement(By.XPath(LocatorValue)));
@@ -42,7 +42,6 @@ namespace MarsFramework.Global
 
 
         }
-
 
 
 
@@ -146,7 +145,7 @@ namespace MarsFramework.Global
         }
 
         #endregion
-     
+
 
         #region screenshots
         public class SaveScreenShotClass

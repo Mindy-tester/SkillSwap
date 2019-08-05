@@ -40,19 +40,14 @@ namespace MarsFramework
             {
 
                 ManageListingsPage manageListingObj = new ManageListingsPage();
-                manageListingObj.ValidateTheSkillAdded();
+                //manageListingObj.ValidateTheSkillAdded();
                 //manageListingObj.DeleteListing();
-                //manageListingObj.ValidatedDeletedSkills();
+                manageListingObj.UpdatedListing();
+               
 
             }
-            [Test, Order(3)]
-
-            public void UpdateSkill()
-            {
-                ManageListingsPage updateSkillObj = new ManageListingsPage();
-                updateSkillObj.UpdatedListing();
-            }
-            [Test , Order(4)]
+            
+            [Test , Order(3)]
             public void ManageRequests()
             {
                 ManageRequestsPage manageRequest = new ManageRequestsPage();
@@ -60,7 +55,7 @@ namespace MarsFramework
                 
 
             }
-            [Test, Order(5)]
+            [Test, Order(4)]
 
             public void SearchSkill()
             {
